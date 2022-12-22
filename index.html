@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Table</title>
+</head>
+
+<style>
+  body {
+    background-color: black;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    text-align: center;
+  }
+
+  ​h1 {
+    color: whitesmoke;
+    font-family: sans-serif;
+  }
+
+  #main {
+    position: absolute;
+    margin: 0 auto;
+    top: 50%;
+    left: 50%;
+    min-width: 375px;
+    min-height: 120px;
+    margin-top: -150px;
+    margin-left: -250px;
+    border-radius: 10px;
+    color: whitesmoke;
+    font-family: 'Lato', sans-serif;
+  }
+
+  #button {
+    background-color: palevioletred;
+    color: whitesmoke;
+    padding: 12px;
+    border-radius: 5px;
+    margin: 12px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  table, th, td {
+    border: solid;
+    border-collapse: collapse;
+    padding: 4px;
+  }
+
+  table {
+    width: 100%;
+  }
+</style>
+
+<body>
+  <div id="main">
+    <div id="target">
+    </div>
+    <input id="button" type="button" onclick="populate()" value="Generate">
+  </div>
+</body>
+
+<script type = "text/javascript">
+  function generate() {
+    let sum = 100
+    const numbers = new Array
+    for (let i = 0; i < 19; i++) {
+      const randomNumber = Math.floor(Math.random() * 10)
+      sum -= randomNumber < 0 ? 0 : randomNumber
+      numbers.push(randomNumber < 0 ? 0 : randomNumber)
+    }
+    numbers.push(sum)
+    console.log(numbers.reduce((a, b) => a + b, 0))
+    return numbers
+    }
+
+  function createDataSet(numbers) {
+    const data = []
+    const firstSet = numbers.splice(0, 5)
+    const secondSet = numbers.splice(0, 5)
+    const thirdSet = numbers.splice(0, 5)
+    data.push(Object.assign({}, firstSet), Object.assign({}, secondSet),Object.assign({}, thirdSet), Object.assign({}, numbers))
+    return data
+  }
+
+  function createTable() {
+      const values = generate()
+      const newTable = document.createElement("table")
+      const dataset = createDataSet(values)
+      newTable.setAttribute('id', 'myTable')
+      newTable.innerHTML = "<thead><th>One</th><th>Two</th><th>Three</th><th>Four</th><th>Five</th></thead>";
+      dataset.forEach(row => {
+        const newRow = document.createElement("tr")
+        const tdOne = document.createElement("td")
+        const tdTwo = document.createElement("td")
+        const tdThree = document.createElement("td")
+        const tdFour = document.createElement("td")
+        const tdFive = document.createElement("td")
+        tdOne.textContent = row[0]
+        tdTwo.textContent = row[1]
+        tdThree.textContent = row[2]
+        tdFour.textContent = row[3]
+        tdFive.textContent = row[4]
+        newRow.appendChild(tdOne)
+        newRow.appendChild(tdTwo)
+        newRow.appendChild(tdThree)
+        newRow.appendChild(tdFour)
+        newRow.appendChild(tdFive)
+        newTable.appendChild(newRow)
+      })
+      const target = document.getElementById('target')
+      target.appendChild(newTable)
+    }
+
+  function populate() {
+      const table = document.getElementById('myTable')
+      if (table != null) {
+        table.remove()
+        createTable()
+      }
+      else {
+        createTable()
+      }
+    }
+
+</script>
+
+</html>
+
