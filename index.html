@@ -64,6 +64,7 @@
     <div id="target">
     </div>
     <input id="button" type="button" onclick="populate()" value="Generate">
+
   </div>
 </body>
 
@@ -90,10 +91,20 @@
     return data
   }
 
+  function displaySum(values) {
+    const sum = values.reduce((a, b) => a + b, 0)
+    const elem = document.createElement("p");
+    elem.setAttribute('id', 'sum')
+    elem.innerHTML = `Sum of all values: ${sum}`
+    document.getElementById('main').appendChild(elem)
+  }
+
   function createTable() {
       const values = generate()
+      displaySum(values)
       const newTable = document.createElement("table")
       const dataset = createDataSet(values)
+      console.log(values)
       newTable.setAttribute('id', 'myTable')
       newTable.innerHTML = "<thead><th>One</th><th>Two</th><th>Three</th><th>Four</th><th>Five</th></thead>";
       dataset.forEach(row => {
@@ -122,6 +133,7 @@
   function populate() {
       const table = document.getElementById('myTable')
       if (table != null) {
+        document.getElementById('sum').remove()
         table.remove()
         createTable()
       }
